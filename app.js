@@ -17,7 +17,7 @@ const sb = createClient(SUPABASE_URL, SUPABASE_ANON, { db: { schema: "planner" }
 const CATS = {
   estudos: { label: "Estudos", color: "var(--c-estudos)", gcolor: "9" },
   trabalho: { label: "Trabalho", color: "var(--c-trabalho)", gcolor: "7" },
-  ingles: { label: "Inglês", color: "var(--c-ingles)", gcolor: "5" },
+  financeiro: { label: "Financeiro", color: "var(--c-financeiro)", gcolor: "2" },
   pessoal: { label: "Pessoal", color: "var(--c-pessoal)", gcolor: "10" },
   saude: { label: "Saúde", color: "var(--c-saude)", gcolor: "4" },
 };
@@ -533,7 +533,7 @@ async function viewToday() {
     S.habits.length ? S.habits.map((hb) => {
       const on = S.logs.some((l) => l.habit_id === hb.id && l.day === tStr);
       return h("div", { class: "item" + (on ? " done" : "") }, h("button", { class: "check" + (on ? " on" : ""), onclick: () => toggleHabit(hb, tStr) }),
-        h("div", { class: "body" }, h("div", { class: "title" }, hb.name), h("div", { class: "meta" }, catTag(hb.category), h("span", null, `🔥 ${streak(hb)} dia(s)`))));
+        h("div", { class: "body" }, h("div", { class: "title" }, hb.name), h("div", { class: "meta" }, catTag(hb.category), h("span", { title: "Dias seguidos sem falhar, contando até hoje" }, streakLabel(streak(hb))))));
     }) : h("div", { class: "empty" }, "Crie hábitos na aba Hábitos."));
 
   return h("div", null,
@@ -829,7 +829,7 @@ function openEvent(e) {
     e.desc ? h("div", { style: { whiteSpace: "pre-wrap", fontSize: "14px", marginBottom: "12px" } }, e.desc.replace(/<[^>]+>/g, " ")) : null,
     h("div", { class: "actions" },
       e.link && e.link.startsWith("https://") ? h("a", { class: "btn", href: e.link, target: "_blank", rel: "noopener" }, "Abrir no Google Agenda") : null,
-      h("button", { class: "btn primary", onclick: () => { document.querySelector(".overlay")?.remove(); openTask({ title: `Preparar: ${e.title}`, due_date: ymd(e.start), category: /ingl|english/i.test(e.title) ? "ingles" : "pessoal" }); } }, "+ Tarefa ligada")),
+      h("button", { class: "btn primary", onclick: () => { document.querySelector(".overlay")?.remove(); openTask({ title: `Preparar: ${e.title}`, due_date: ymd(e.start), category: /ingl|english|aula|curso/i.test(e.title) ? "estudos" : "pessoal" }); } }, "+ Tarefa ligada")),
   ]);
 }
 function openModal(title, build) {
@@ -853,6 +853,7 @@ async function toggleHabit(hb, day) {
   const { error } = on ? await sb.from("habit_logs").delete().eq("habit_id", hb.id).eq("day", day) : await sb.from("habit_logs").insert({ habit_id: hb.id, day });
   if (error) { toast("Erro: " + error.message); await loadAll(); render(); }
 }
+const streakLabel = (n) => `🔥 ${n} ${n === 1 ? "dia seguido" : "dias seguidos"}`;
 function streak(hb) {
   const days = new Set(S.logs.filter((l) => l.habit_id === hb.id).map((l) => l.day));
   let d = new Date(); if (!days.has(ymd(d))) d = addDays(d, -1);
@@ -871,7 +872,7 @@ function viewHabits() {
         S.habits.map((hb) => {
           const count = days.filter((d) => S.logs.some((l) => l.habit_id === hb.id && l.day === ymd(d))).length;
           return h("div", { class: "habit-row" },
-            h("div", { class: "name", onclick: () => openHabit(hb) }, hb.name, h("div", { class: "meta", style: { color: "var(--muted)", fontSize: "12px", fontWeight: 400 } }, `🔥 ${streak(hb)}`)),
+            h("div", { class: "name", onclick: () => openHabit(hb) }, hb.name, h("div", { class: "meta", title: "Dias seguidos sem falhar, contando até hoje", style: { color: "var(--muted)", fontSize: "12px", fontWeight: 400 } }, streakLabel(streak(hb)))),
             days.map((d) => {
               const dStr = ymd(d), on = S.logs.some((l) => l.habit_id === hb.id && l.day === dStr);
               return h("button", { class: "hcell" + (on ? " on" : "") + (dStr === tStr ? " today" : ""), style: on ? { background: CATS[hb.category].color } : null,

@@ -14,7 +14,7 @@ Planner pessoal na web, integrado ao **Google Agenda**: tarefas, hábitos, metas
 
 - **Hoje:** agenda do dia (eventos do Google + tarefas com horário), top 3 prioridades, tarefas atrasadas e do dia, hábitos e % do dia concluído.
 - **Semana e Mês:** calendário com as agendas do Google e as tarefas juntas. Clicar num horário vazio cria uma tarefa.
-- **Tarefas:** categorias (Estudos, Trabalho, Inglês, Pessoal, Saúde), prioridade, subtarefas e lembrete.
+- **Tarefas:** categorias (Estudos, Trabalho, Financeiro, Pessoal, Saúde), prioridade, subtarefas e lembrete.
 - **Hábitos:** marcação diária, meta semanal e sequência de dias seguidos.
 - **Metas do mês:** alvo 🎯 que recebe um dardo quando a meta é cumprida, barra de progresso para metas de contagem e observações.
 - **Revisão semanal:** números da semana, reflexão, anotações por área, o que ficou pendente e o que vem nos próximos dias.
