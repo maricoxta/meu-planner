@@ -1,0 +1,9 @@
+{
+  "name": "Meu Planner",
+  "short_name": "Planner",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FBF6EE",
+  "theme_color": "#2DB46C",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

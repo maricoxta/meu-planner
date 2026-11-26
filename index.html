@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Meu Planner</title>
+<meta name="theme-color" content="#2DB46C">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Londrina+Solid:wght@400;900&family=Caveat+Brush&display=swap" rel="stylesheet">
+<link id="theme-css" rel="stylesheet" href="/styles.css">
+<script>
+  // aplica o tema salvo (flores ou azul) antes de desenhar a tela
+  try { if (JSON.parse(localStorage.getItem("planner.theme")) === "azul") {
+    document.getElementById("theme-css").href = "/azul.css";
+    document.querySelector('link[rel="icon"]').href = "/icon-azul.svg";
+  } } catch (e) {}
+</script>
+</head>
+<body>
+<div id="app"><div class="boot">Carregando…</div></div>
+<script type="module" src="/app.js"></script>
+</body>
+</html>
